@@ -30,6 +30,16 @@ function RouterConfig({ history, app }) {
         });
       },
     },
+    {
+      path: '/users/detail',
+      name: 'UsersDetailPage',
+      getComponent(nextState, cb) {
+        require.ensure([], (require) => {
+          registerModel(app, require('./models/usersDetail'));
+          cb(null, require('./routes/UsersDetail'));
+        });
+      },
+    },
   ];
 
   return <Router history={history} routes={routes} />;

@@ -1,7 +1,7 @@
 import * as usersService from '../services/users';
 
 export default {
-  namespace: 'users',
+  namespace: 'usersDetail',
   state: {
     list: [],
     total: null,
@@ -14,13 +14,13 @@ export default {
   },
   effects: {
     *fetch({ payload: { page = 1 } }, { call, put }) {
-      const { data } = yield call(usersService.fetch, { page });
+      const { data, headers } = yield call(usersService.fetch, { page });
       yield put({
         type: 'save',
         payload: {
-          data: data.rows.rows,
-          total: data.rows.total,
-          page: 10,
+          data,
+          total: parseInt(headers['x-total-count'], 10),
+          page: parseInt(page, 10),
         },
       });
     },
